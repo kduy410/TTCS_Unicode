@@ -1,0 +1,11 @@
+﻿Họ và tên;Chức vụ;Ngày tháng năm sinh;Hệ số lương
+Nguyễn Văn A;Thư ký;10/6/1980;2.5
+Nguyễn Thị B;Giám đốc;9/6/1960;10.0
+Nguyễn Thi C;Chủ tịch;8/4/1940;100.0
+Nguyễn Hồng C;Thư ký;7/6/1980;2.5
+Nguyễn Đen D;Nhân viên;6/2/1960;10.0
+NGUYỄN HÀ KHÁNH DUY;Nhân viên;01/01/0100;9999
+Nguyễn Trắng E;Thực tập sinh;5/11/1940;100.0
+Nguyễn Đổ F;Ăn bám;10/11/1980;2.5
+Nguyễn Cái gì đó G;Phó chủ tịch;10/8/1960;10.0
+Nguyễn Nguyệt V;Phó giám đốc;10/7/1940;100.0
