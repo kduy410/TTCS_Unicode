@@ -156,7 +156,7 @@ wstring* Split(wstring line, wchar_t x) {
 	}
 	return substring;
 }
-NgaySinh outputBOD(wstring line) {
+NgaySinh outputDOB(wstring line) {
 	wstring* a = Split(line, '/');
 	NgaySinh ns;
 	if (a->length() < 0) {
@@ -183,7 +183,7 @@ NgaySinh outputBOD(wstring line) {
 	wstring x = day + L"/" + mon + L"/" + *(a + 2);*/
 	return ns;
 }
-wstring BODtoSTR(NgaySinh ns) {
+wstring DOBtoSTR(NgaySinh ns) {
 	wstring x;
 	wstring d, m, y;
 
@@ -350,7 +350,7 @@ int Search(node head, wstring value) {
 	int pos = 0;
 	for (node p = head; p != NULL; p = p->next)
 	{
-		NgaySinh ns = outputBOD(value);
+		NgaySinh ns = outputDOB(value);
 		if (p->data.getHoTen() == value)
 		{
 			return pos;
@@ -405,7 +405,7 @@ bool FindSubString(const wstring str1, const wstring str2) {
 	return false;
 }
 bool FindSubString(const NgaySinh ns1, const wstring subString) {
-	NgaySinh ns2 = outputBOD(subString);
+	NgaySinh ns2 = outputDOB(subString);
 	if (ns1.ngay == ns2.ngay || ns1.thang == ns2.thang || ns1.nam == ns2.nam)
 		return true;
 	else return false;
@@ -423,7 +423,7 @@ node DelByString(node head, wstring subString) {
 			int pos = Search(head, p->data);
 			head = DelAt(head, pos);
 		}
-		else if (FindSubString(BODtoSTR(p->data.getNgaySinh()), subString))
+		else if (FindSubString(DOBtoSTR(p->data.getNgaySinh()), subString))
 		{
 			int pos = Search(head, p->data);
 			head = DelAt(head, pos);
@@ -447,7 +447,7 @@ int SearchByString(node head, node p, wstring subString) {
 		int pos = Search(head, p->data);
 		return pos;
 	}
-	else if (FindSubString(BODtoSTR(p->data.getNgaySinh()), subString))
+	else if (FindSubString(DOBtoSTR(p->data.getNgaySinh()), subString))
 	{
 		int pos = Search(head, p->data);
 		return pos;
@@ -472,7 +472,7 @@ void DisplaySBS(node head, wstring sub) {
 			wcout << L"STT: " << i + 1 << endl;
 			wcout << L"Họ tên : " << value.getHoTen() << endl;
 			wcout << L"Chức vụ : " << value.getChucVu() << endl;
-			wcout << L"Ngày sinh : " << BODtoSTR(value.getNgaySinh()) << endl;
+			wcout << L"Ngày sinh : " << DOBtoSTR(value.getNgaySinh()) << endl;
 			wcout << L"Hệ số lương : " << fixed << setprecision(3) << value.getHeSoLuong() << endl;
 			//value.hienThi();
 			//wcout << "====================" << endl;
@@ -499,7 +499,7 @@ void Traverser(node head) {
 		wcout << setWidth(IntToString(i + 1), 10) << "|";
 		wcout << setWidth(p->data.getHoTen(), 25) << "|";
 		wcout << setWidth(p->data.getChucVu(), 25) << "|";
-		wcout << setWidth(BODtoSTR(p->data.getNgaySinh()), 25) << "|";
+		wcout << setWidth(DOBtoSTR(p->data.getNgaySinh()), 25) << "|";
 		wcout << fixed << setprecision(3) << p->data.getHeSoLuong() << endl;
 		++i;
 	}
@@ -560,7 +560,7 @@ node InputList(wfstream &file, wstring name, node head) {
 		ptr = Split(line, ';');
 		wstring hoten = *(ptr);
 		wstring chucvu = *(ptr + 1);
-		NgaySinh ngaysinh = outputBOD(*(ptr + 2));
+		NgaySinh ngaysinh = outputDOB(*(ptr + 2));
 		float hsl = (float)StringToFloat(*(ptr + 3));
 		NhanVien* nhanvien = new NhanVien(hoten, chucvu, ngaysinh, hsl);
 		head = AddTail(head, *nhanvien);
@@ -587,7 +587,7 @@ node OutPutList(node head, wstring name) {
 		_file << setWidth(IntToString(i), 10)
 			<< setWidth(p->data.getHoTen(), 25)
 			<< setWidth(p->data.getChucVu(), 25)
-			<< setWidth(BODtoSTR(p->data.getNgaySinh()), 25)
+			<< setWidth(DOBtoSTR(p->data.getNgaySinh()), 25)
 			<< fixed << setprecision(2)
 			<< num
 			<< "\n";
@@ -927,7 +927,7 @@ node AddEmp(node head) {
 	wcout << L"VỊ TRÍ CẦN CHÈN: \n";
 	wcin >> pos;
 	wcout << setWidth('#', 100) << endl;
-	NgaySinh ngaysinh = outputBOD(ns);
+	NgaySinh ngaysinh = outputDOB(ns);
 	NhanVien nv = NhanVien(ht, cv, ngaysinh, hsl);
 	head = AddAt(head, nv, pos - 1);
 	return head;
