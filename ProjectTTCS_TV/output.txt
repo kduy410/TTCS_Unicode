@@ -1,0 +1,11 @@
+STT       Họ và tên                Chức vụ                  Ngày tháng năm sinh      Hệ số lương              
+1         Nguyễn Đổ F              Ăn bám                   10/11/1980               2.50
+2         Nguyễn Trắng E           Thực tập sinh            05/11/1940               100.00
+3         NGUYỄN HÀ KHÁNH DUY      Nhân viên                01/01/0100               9999.00
+4         Nguyễn Văn A             Thư ký                   10/06/1980               2.50
+5         Nguyễn Hồng C            Thư ký                   07/06/1980               2.50
+6         Nguyễn Nguyệt V          Phó giám đốc             10/07/1940               100.00
+7         Nguyễn Cái gì đó G       Phó chủ tịch             10/08/1960               10.00
+8         Nguyễn Thị B             Giám đốc                 09/06/1960               10.00
+9         duy                      chủ tịch                 04/10/1997               3.50
+10        Nguyễn Thi C             Chủ tịch                 08/04/1940               100.00
