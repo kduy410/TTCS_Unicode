@@ -42,7 +42,6 @@ string	FloatToString(float NumberAsFloat) {
 	ss >> NumberAsString;
 	return NumberAsString;
 }
-
 bool Equal(wchar_t x, wchar_t y) {
 	return (x == y) ? true : false;
 }
@@ -100,7 +99,6 @@ wstring toUpper(const wstring input) {
 	}
 	return str;
 }
-
 wstring setWidth(wstring n, int size) {
 	int temp = size - (n).length();
 	if (temp < 0) {
@@ -122,7 +120,6 @@ wstring setWidth(wchar_t x, int size) {
 	}
 	return temp;
 }
-
 int Find(wstring line, wchar_t x)
 {
 	int pos = 0;
@@ -144,7 +141,6 @@ int Find(wstring line, wchar_t x)
 	}
 */
 }
-
 wstring* Split(wstring line, wchar_t x) {
 	wstring* substring = new wstring[100];
 	int found, pos = 0;
@@ -213,7 +209,6 @@ struct LinkedList {
 	struct LinkedList* next;
 };
 typedef LinkedList* node;//Thay kiểu dữ liệu = NODE cho ngắn gọn
-
 node CreateNode(NhanVien value) {
 	node temp; //Khai báo 1 node
 	//temp = (node)malloc(sizeof(struct LinkedList));//Cấp phát vùng nhớ dùng malloc
@@ -411,7 +406,7 @@ bool FindSubString(const wstring str1, const wstring str2) {
 }
 bool FindSubString(const NgaySinh ns1, const wstring subString) {
 	NgaySinh ns2 = outputBOD(subString);
-	if (ns1.ngay == ns2.ngay && ns1.thang == ns2.thang && ns1.nam == ns2.nam)
+	if (ns1.ngay == ns2.ngay || ns1.thang == ns2.thang || ns1.nam == ns2.nam)
 		return true;
 	else return false;
 }
@@ -428,18 +423,13 @@ node DelByString(node head, wstring subString) {
 			int pos = Search(head, p->data);
 			head = DelAt(head, pos);
 		}
-		else if (FindSubString(p->data.getNgaySinh(), subString))
+		else if (FindSubString(BODtoSTR(p->data.getNgaySinh()), subString))
 		{
 			int pos = Search(head, p->data);
 			head = DelAt(head, pos);
 		}
-		else if (p->data.getHeSoLuong() == StringToFloat(subString)
-			//&&
-			//FindSubString(FloatToString(p->data.getHeSoLuong()),subString)
-			)
+		else if (p->data.getHeSoLuong() == StringToFloat(subString))
 		{
-			/*wcout << StringToFloat(subString) << endl;
-			wcout << p->data.getHeSoLuong() << endl;*/
 			int pos = Search(head, p->data, StringToFloat(subString));
 			head = DelAt(head, pos);
 		}
@@ -457,18 +447,13 @@ int SearchByString(node head, node p, wstring subString) {
 		int pos = Search(head, p->data);
 		return pos;
 	}
-	else if (FindSubString(p->data.getNgaySinh(), subString))
+	else if (FindSubString(BODtoSTR(p->data.getNgaySinh()), subString))
 	{
 		int pos = Search(head, p->data);
 		return pos;
 	}
-	else if (p->data.getHeSoLuong() == StringToFloat(subString)
-		//&&
-		//FindSubString(FloatToString(p->data.getHeSoLuong()),subString)
-		)
+	else if (p->data.getHeSoLuong() == StringToFloat(subString))
 	{
-		/*wcout << StringToFloat(subString) << endl;
-		wcout << p->data.getHeSoLuong() << endl;*/
 		int pos = Search(head, p->data, StringToFloat(subString));
 		return pos;
 	}
@@ -562,7 +547,6 @@ int CountTotal(wfstream &file, wstring dir) {
 	file.close();
 	return count;
 }
-
 node InputList(wfstream &file, wstring name, node head) {
 
 	file.open(name);
@@ -646,8 +630,8 @@ int ranking(const wstring str) {
 	wstring pct = L"phó chủ tịch";
 	wstring gd = L"giám đốc";
 	wstring pgd = L"phó giám đốc";
-	wstring tk = L"thư kí";
-	wstring ql = L"quản lí";
+	wstring tk = L"thư ký";
+	wstring ql = L"quản lý";
 	wstring tp = L"trưởng phòng";
 	wstring pp = L"phó phòng";
 	wstring nv = L"nhân viên";
@@ -662,6 +646,7 @@ int ranking(const wstring str) {
 	else if (Equal(temp, ql))  x = 7.5;
 	else if (Equal(temp, tp))  x = 7;
 	else if (Equal(temp, pp))  x = 6.5;
+
 	else if (Equal(temp, nv))  x = 5;
 	else if (Equal(temp, trainee))  x = 4;
 	return x;
@@ -709,7 +694,6 @@ bool compareName(wstring d1, wstring d2) {
 	return false;
 	/*return false;*/
 }
-
 node SortedMerge(node a, node b, int thutu, int type) {
 	node result = NULL;
 
