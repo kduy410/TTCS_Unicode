@@ -10,51 +10,42 @@
 #include <fcntl.h>
 #include <windows.h>
 #include <locale>
-#include <codecvt> //possible C++11?
+#include <codecvt>
 using namespace std;
 #define M 1024
 
-int StringToInt(wstring NumberAsString) {
-	int NumberAsInt;
+int StringToInt(wstring str) {
+	int num;
 	wstringstream ss;
-	ss << NumberAsString;
-	ss >> NumberAsInt;
-	return NumberAsInt;
+	ss << str;
+	ss >> num;
+	return num;
 }
-wstring IntToString(int NumberAsInt) {
-	wstring NumberAsString;
+wstring IntToString(int num) {
+	wstring str;
 	wstringstream ss;
-	ss << NumberAsInt;
-	ss >> NumberAsString;
-	return NumberAsString;
+	ss << num;
+	ss >> str;
+	return str;
 }
-float StringToFloat(wstring NumberAsString) {
-	float NumberAsFloat;
+float StringToFloat(wstring str) {
+	float num;
 	wstringstream ss;
-	ss << NumberAsString;
-	ss >> NumberAsFloat;
-	return NumberAsFloat;
+	ss << str;
+	ss >> num;
+	return num;
 }
-string	FloatToString(float NumberAsFloat) {
-	string NumberAsString;
+string	FloatToString(float num) {
+	string str;
 	stringstream ss;
-	ss << NumberAsFloat;
-	ss >> NumberAsString;
-	return NumberAsString;
+	ss << num;
+	ss >> str;
+	return str;
 }
 bool Equal(wchar_t x, wchar_t y) {
 	return (x == y) ? true : false;
 }
 bool Equal(wstring x, wstring y) {
-	//int pos = 0;
-	//if (x[0] == y[0]) {
-	//	while (x[pos] != '\0' && y[pos] != '\0') {
-	//		if (x[pos] != y[pos]) return false;
-	//		else pos++;
-	//	}
-	//	return true;
-	//}
-	//else return false;
 	return (x == y) ? true : false;
 }
 bool Equal(wstring x, wchar_t y) {
@@ -71,13 +62,7 @@ wstring toLower(const wstring input) {
 	wstring str = input;
 	for (int i = 0; i < str.length(); i++)
 	{
-		if (str[i] >= 'a' && str[i] <= 'z') {
-			//Convert lowercase to uppercase 
-			//str[i] = str[i] - 32;
-			continue;
-		}
-		else if (str[i] >= 'A' && str[i] <= 'Z') {
-			//Convert uppercase to lowercase 
+		if (str[i] >= 'A' && str[i] <= 'Z') {
 			str[i] = str[i] + 32;
 		}
 	}
@@ -88,20 +73,14 @@ wstring toUpper(const wstring input) {
 	for (int i = 0; i < str.length(); i++)
 	{
 		if (str[i] >= 'a' && str[i] <= 'z') {
-			//Convert lowercase to uppercase 
 			str[i] = str[i] - 32;
-		}
-		else if (str[i] >= 'A' && str[i] <= 'Z') {
-			//Convert uppercase to lowercase 
-			//str[i] = str[i] + 32;
-			continue;
 		}
 	}
 	return str;
 }
 wstring setWidth(wstring n, int size) {
 	int temp = size - (n).length();
-	if (temp < 0) {
+	if (temp <= 0) {
 		return n;
 	}
 	else {
@@ -131,15 +110,9 @@ int Find(wstring line, wchar_t x)
 		else if (line[pos + 1] == '\0') {
 			return pos + 1;
 		}
-		else pos++;
+		else ++pos;
 	}
-	/*for (int i = 0; i < line.length(); i++)
-	{
-		if (Equal(line[i], x)) {
-			return i;
-		}
-	}
-*/
+	return pos;
 }
 wstring* Split(wstring line, wchar_t x) {
 	wstring* substring = new wstring[100];
@@ -152,41 +125,21 @@ wstring* Split(wstring line, wchar_t x) {
 			substring[pos] += temp[i];
 		}
 		temp.erase(0, found + 1);
-		pos++;
+		++pos;
 	}
 	return substring;
 }
 NgaySinh outputDOB(wstring line) {
 	wstring* a = Split(line, '/');
 	NgaySinh ns;
-	if (a->length() < 0) {
-		ns.ngay = -1;
-		ns.thang = -1;
-		ns.nam = -1;
-	}
-	else {
-		ns.ngay = StringToInt(*a);
-		ns.thang = StringToInt(*(a + 1));
-		ns.nam = StringToInt(*(a + 2));
-	}
-	/*wstring day, mon, year;
-	int d = StringToInt(*a);
-	int m = StringToInt(*(a + 1));
-	if (d > 0 && d < 10) {
-		day = L"0" + IntToString(d);
-	}
-	else day = *a;
-	if (m > 0 && m < 10) {
-		mon = L"0" + IntToString(m);
-	}
-	else mon = *(a + 1);
-	wstring x = day + L"/" + mon + L"/" + *(a + 2);*/
+	ns.ngay = StringToInt(*a);
+	ns.thang = StringToInt(*(a + 1));
+	ns.nam = StringToInt(*(a + 2));
 	return ns;
 }
 wstring DOBtoSTR(NgaySinh ns) {
 	wstring x;
 	wstring d, m, y;
-
 	if (ns.ngay < 10 && ns.ngay > 0) {
 		d = L'0' + IntToString(ns.ngay);
 	}
@@ -199,56 +152,52 @@ wstring DOBtoSTR(NgaySinh ns) {
 		y = L'0' + IntToString(ns.nam);
 	}
 	else y = IntToString(ns.nam);
-
 	x = d + L'/' + m + L'/' + y;
-
 	return x;
 }
 struct LinkedList {
 	NhanVien data;
 	struct LinkedList* next;
 };
-typedef LinkedList* node;//Thay kiểu dữ liệu = NODE cho ngắn gọn
+typedef LinkedList* node;
 node CreateNode(NhanVien value) {
-	node temp; //Khai báo 1 node
-	//temp = (node)malloc(sizeof(struct LinkedList));//Cấp phát vùng nhớ dùng malloc
+	node temp;
 	temp = new LinkedList;
-	temp->next = NULL; //cho next trỏ tới NULL
-	temp->data = value; //gán giá trị cho node
-	return temp;//trả về node mới đã có giá trị
+	temp->next = NULL;
+	temp->data = value;
+	return temp;
 }
 node AddHead(node head, NhanVien value) {
-	node temp = CreateNode(value);//khởi tạo node temp với data = value
-	if (head == NULL) {
-		head = temp; //nếu liked list đang trống thì node temp là head
-	}
-	else {
-		temp->next = head; //trỏ next của temp = head hiện tại
-		head = temp; //đổi head hiện tại = temp (vì temp bây h là head mới)
-	}
-	return head;
-}
-node AddTail(node head, NhanVien value) {
-	node temp, p; //khai báo 2 node tạm
-	temp = CreateNode(value);//gọi hàm createnode để khởi tạo node temp có next trỏ tới NULL và data là value
+	node temp = CreateNode(value);
 	if (head == NULL) {
 		head = temp;
 	}
 	else {
-		p = head;//khởi tạo p trỏ tới head
+		temp->next = head;
+		head = temp;
+	}
+	return head;
+}
+node AddTail(node head, NhanVien value) {
+	node temp, p;
+	temp = CreateNode(value);
+	if (head == NULL) {
+		head = temp;
+	}
+	else {
+		p = head;
 		while (p->next != NULL) {
-			p = p->next;//duyệt đến cuối.node cuối là node có next = null
+			p = p->next;
 		}
-		p->next = temp;//gán next của node cuối = temp,khi đó temp sẽ là node cuối(temp.next=NULL)
+		p->next = temp;
 	}
 	return head;
 }
 node AddAt(node head, NhanVien value, int position) {
 	if (position == 0 || head == NULL) {
-		head = AddHead(head, value);//nếu vị trí chèn = 0, => thêm vào đầu
+		head = AddHead(head, value);
 	}
 	else {
-		//bắt đầu tìm vị trí cần chèn. dùng k để đếm vị trí
 		int k = 1;
 		node p = head;
 		while (p->next != NULL && k != position) {
@@ -256,10 +205,7 @@ node AddAt(node head, NhanVien value, int position) {
 			++k;
 		}
 		if (k != position) {
-			//nếu duyệt hết danh sách mà vẫn chưa đến vị trí cần chèn, mặc định chèn cuối
-			//nếu k muốn chèn, thông báo vị trí không hợp lệ
 			head = AddTail(head, value);
-			//wcout<<"Vi tri chen vuot qua vi tri cuoi cung"<<endl;
 		}
 		else {
 			node temp = CreateNode(value);
@@ -284,16 +230,14 @@ node DelTail(node head) {
 	while (p->next->next != NULL) {
 		p = p->next;
 	}
-	p->next = p->next->next;//cho next = NULL
-	//hoặc p->next  = NULL
+	p->next = p->next->next;
 	return head;
 }
 node DelAt(node head, int position) {
 	if (position == 0 || head == NULL) {
-		head = DelHead(head); //nếu vị trí chèn = 0,Xoá đầu
+		head = DelHead(head);
 	}
 	else {
-		//tìm vị trí chèn. dùng k để đếm vị trí
 		int k = 1;
 		node p = head;
 		while (p->next->next != NULL && k != position)
@@ -302,10 +246,7 @@ node DelAt(node head, int position) {
 			++k;
 		}
 		if (k != position) {
-			//nếu duyệt hết danh sách mà không tìm được vị trí cần xoá, mặc định xoá cuối
-			//nếu k muốn xoá,thông báo vị trí xoá k hợp lệ
 			head = DelTail(head);
-			//wcout << "Vi tri xoa vuot qua vi tri cuoi"<<endl;
 		}
 		else {
 			p->next = p->next->next;
@@ -382,25 +323,24 @@ bool FindSubString(const wstring str1, const wstring str2) {
 	wstring s1 = toLower(str1);
 	wstring s2 = toLower(str2);
 	int size2 = str2.length();
-	while (s1[i] != '\0') {//LẬP CHUỖI DÀI
-		if (s1[i] == s2[0]) {//KT PHẦN TỬ 1 CỦA CHUỖI 2 CÓ BẰNG PHẦN TỬ thứ i CỦA CHUỖI 1
+	while (s1[i] != '\0') {
+		if (s1[i] == s2[0]) {
 			int j = 1;
-			save = i;
-			temp = i;//LƯU VỊ TRÍ KHI I = PHẦN TỬ 1 CỦA CHUỖI 2
-			size1 = 1;//LƯU LẠI KÍCH THƯỚC CỦA CHUỖI 1(PHẦN TRÙNG VỚI CHUỖI 2)
-			while ((s2[j] != '\0' || s1[save + 1] != '\0') && s1[save + 1] == s2[j]) {
-				j++;
-				save++;
-				size1++;
+			temp = i;
+			size1 = 1;
+			while ((s2[j] != '\0' || s1[i + 1] != '\0') && s1[i + 1] == s2[j]) {
+				++j;
+				++i;
+				++size1;
 			}
 			if (s2[j] == '\0' && size2 == size1)
 				return true;
 			else {
 				i = temp;
-				i++;
+				++i;
 			}
 		}
-		else i++;
+		else ++i;
 	}
 	return false;
 }
@@ -461,7 +401,6 @@ int SearchByString(node head, node p, wstring subString) {
 }
 void DisplaySBS(node head, wstring sub) {
 	int flag = 0;
-	wcout << setWidth('@', 100) << endl;
 	for (node p = head; p != NULL; p = p->next)
 	{
 		int i = SearchByString(head, p, sub);
@@ -483,7 +422,6 @@ void DisplaySBS(node head, wstring sub) {
 		wcout << L"KHÔNG TÌM THẤY" << endl;
 		wcout << "====================" << endl;
 	}
-	wcout << setWidth('@', 100) << endl;
 }
 void Traverser(node head) {
 	wcout << endl;
@@ -520,19 +458,6 @@ int Length(node head) {
 }
 node Input(NhanVien value) {
 	node head = InitHead();
-	/*int n;
-	NhanVien value;*/
-	//do {
-	//	/*wcout << "Nhập số nhân viên: ";
-	//	wcin >> n;*/
-	//	
-	//} while (n <= 0);
-	//for (int i = 0; i < n; i++)
-	//{
-	//	/*wcout << "Nhap gia tri can them: ";
-	//	wcin >> value;*/
-	//	head = AddTail(head, value);
-	//}
 	head = AddTail(head, value);
 	return head;
 }
@@ -542,18 +467,16 @@ int CountTotal(wfstream &file, wstring dir) {
 	wstring line;
 	getline(file, line);
 	while (getline(file, line)) {
-		count++;
+		++count;
 	}
 	file.close();
 	return count;
 }
 node InputList(wfstream &file, wstring name, node head) {
-
 	file.open(name);
 	std::locale loc(locale(), new codecvt_utf8<wchar_t>);  // UTF-8
 	file.imbue(loc);
 	wstring line;
-
 	getline(file, line);
 	while (getline(file, line)) {
 		wstring* ptr = new wstring[4];
@@ -570,9 +493,8 @@ node InputList(wfstream &file, wstring name, node head) {
 }
 node OutPutList(node head, wstring name) {
 	wfstream _file;
-
 	_file.open(name, ios::out);
-	std::locale loc(locale(), new codecvt_utf8<wchar_t>);  // UTF-8
+	std::locale loc(locale(), new codecvt_utf8<wchar_t>);
 	_file.imbue(loc);
 	_file << setWidth(L"STT", 10)
 		<< setWidth(L"Họ và tên", 25)
@@ -599,7 +521,6 @@ node OutPutList(node head, wstring name) {
 	return head;
 }
 bool compareBD(const NgaySinh d1, const NgaySinh d2) {
-
 	int ngay1 = d1.ngay;
 	int ngay2 = d2.ngay;
 	int thang1 = d1.thang;
@@ -625,37 +546,19 @@ bool compareHSL(float d1, float d2) {
 }
 int ranking(const wstring str) {
 	wstring temp = toLower(str);
-
-	wstring ct = L"chủ tịch";
-	wstring pct = L"phó chủ tịch";
-	wstring gd = L"giám đốc";
-	wstring pgd = L"phó giám đốc";
-	wstring tk = L"thư ký";
-	wstring ql = L"quản lý";
-	wstring tp = L"trưởng phòng";
-	wstring pp = L"phó phòng";
-	wstring nv = L"nhân viên";
-	wstring trainee = L"thực tập sinh";
+	wstring a[10] = { L"chủ tịch" ,L"phó chủ tịch" ,L"giám đốc", L"phó giám đốc",
+					L"quản lý",L"trưởng phòng",L"phó phòng",L"thư ký", L"nhân viên",L"thực tập sinh" };
 	int x = 0;
-
-	if (Equal(temp, ct))  x = 10;
-	else if (Equal(temp, pct))  x = 9.5;
-	else if (Equal(temp, gd))  x = 9;
-	else if (Equal(temp, pgd))  x = 8.5;
-	else if (Equal(temp, tk))  x = 8;
-	else if (Equal(temp, ql))  x = 7.5;
-	else if (Equal(temp, tp))  x = 7;
-	else if (Equal(temp, pp))  x = 6.5;
-
-	else if (Equal(temp, nv))  x = 5;
-	else if (Equal(temp, trainee))  x = 4;
+	for (int i = 0; i < 10; i++)
+	{
+		if (Equal(temp, a[i])) { x = 100 - i; }
+	}
 	return x;
 }
 bool compareCV(const wstring d1, const wstring d2) {
 	int x = ranking(d1);
 	int y = ranking(d2);
-	if (x <= y)return true;
-	else return false;
+	return(x <= y) ? true : false;
 }
 bool compareName(wstring d1, wstring d2) {
 	wstring s1 = toUpper(d1);
@@ -671,18 +574,6 @@ bool compareName(wstring d1, wstring d2) {
 	{
 		++p2;
 	}
-	//for (int i = 0; i < (*(str1 + p1 - 1)).length(); i++)
-	//{
-	//	for (int j = 0; i < (*(str2 + p2 - 1)).length(); i++)
-	//	{
-	//		if ((*(str1 + p1 - 1))[i] <= (*(str2 + p2 - 1))[j]) {
-	//			/*	wcout << *(str1 + p1 - 1) << endl;
-	//				wcout << *(str2 + p2 - 1) << endl;*/
-	//			return true;
-	//		}
-	//		else return false;
-	//	}
-	//}
 	int i = 0;
 	int j = 0;
 	while ((*(str1 + p1 - 1))[i] != '\0' && (*(str2 + p2 - 1))[j] != '\0')
@@ -692,17 +583,13 @@ bool compareName(wstring d1, wstring d2) {
 		else if ((*(str1 + p1 - 1))[i] < (*(str2 + p2 - 1))[j]) return true;
 	}
 	return false;
-	/*return false;*/
 }
 node SortedMerge(node a, node b, int thutu, int type) {
 	node result = NULL;
-
-	//Base case
 	if (a == NULL)
 		return b;
 	else if (b == NULL)
 		return a;
-	//chọn a hoặc b, và đệ qui
 	if (type == 0) { //TÊN
 		if (thutu == 1) {
 			if (compareName(a->data.getHoTen(), b->data.getHoTen())) {
@@ -828,7 +715,10 @@ int checkType(wstring line) {
 	{
 		return 2;
 	}
-	if (Equal(toLower(line), L"luong") || Equal(toLower(line), L"he so luong") || Equal(toLower(line), L"lương") || Equal(toLower(line), L"hệ số lương")
+	if (Equal(toLower(line), L"luong")
+		|| Equal(toLower(line), L"he so luong")
+		|| Equal(toLower(line), L"lương")
+		|| Equal(toLower(line), L"hệ số lương")
 		|| (Equal(toLower(line), L"hesoluong"))) {
 		return 3;
 	}
@@ -839,7 +729,6 @@ void FrontBackSplit(node source, node* frontRef, node* backRef) {
 	node slow;
 	slow = source;
 	fast = source->next;
-	//di chuyển fast 2 node,di chuyển slow 1 node
 	while (fast != NULL)
 	{
 		fast = fast->next;
@@ -849,8 +738,6 @@ void FrontBackSplit(node source, node* frontRef, node* backRef) {
 			fast = fast->next;
 		}
 	}
-	//'slow' is before the midpoint in the list, so split it in two at that point
-	//slow nằm ở phía trước điểm giữa của danh sách, nên chia danh sách làm 2 ở điểm đó
 	*frontRef = source;
 	*backRef = slow->next;
 	slow->next = NULL;
@@ -859,24 +746,18 @@ void MergeSort(node* headRef, int thutu, int type) {
 	node head = *headRef;
 	node a;
 	node b;
-
-	//Length = 0 hoặc 1
 	if ((head == NULL) || (head->next == NULL)) {
 		return;
 	}
-	//Split head into 'a' and 'b' sublist
 	FrontBackSplit(head, &a, &b);
-	/* Recursively sort the sublists */
 	MergeSort(&a, thutu, type);
 	MergeSort(&b, thutu, type);
-	//answer=merge the two sorted list together
 	*headRef = SortedMerge(a, b, thutu, type);
 }
 void SortAll(node* headRef) {
 	node head = *headRef;
 	int order;
 	wstring input;
-	//fflush(stdin);
 	wcin.ignore();
 	wcout << setWidth('*', 100) << endl;
 	wcout << L"TIÊU CHÍ SẮP XẾP: " << endl;
@@ -893,20 +774,11 @@ void SortAll(node* headRef) {
 
 	if (order == 1) {
 		MergeSort(headRef, 1, type);
-		/*	wcout << setWidth('*', 100) << endl;
-			Traverser(head);
-			wcout << setWidth('*', 100) << endl;*/
 	}
 	else
 	{
 		MergeSort(headRef, 2, type);
-		/*	wcout << setWidth('*', 100) << endl;
-			Traverser(head);
-			wcout << setWidth('*', 100) << endl;*/
 	}
-	//wcout << setWidth('*', 100) << endl;
-	//Traverser(head);
-	//wcout << setWidth('*', 100) << endl;
 }
 node AddEmp(node head) {
 	wcin.ignore();
