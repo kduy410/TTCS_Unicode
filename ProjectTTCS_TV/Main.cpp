@@ -62,7 +62,7 @@ wstring toLower(const wstring input) {
 	wstring str = input;
 	for (int i = 0; i < str.length(); i++)
 	{
-		if (str[i] >= 'A' && str[i] <= 'Z') {
+		if (str[i] >= L'A' && str[i] <= L'Z') {
 			str[i] = str[i] + 32;
 		}
 	}
@@ -72,7 +72,7 @@ wstring toUpper(const wstring input) {
 	wstring str = input;
 	for (int i = 0; i < str.length(); i++)
 	{
-		if (str[i] >= 'a' && str[i] <= 'z') {
+		if (str[i] >= L'a' && str[i] <= L'z') {
 			str[i] = str[i] - 32;
 		}
 	}
@@ -257,7 +257,7 @@ node DelAt(node head, int position) {
 NhanVien Get(node head, int index) {
 	int k = 0;
 	node p = head;
-	while (p != NULL && k != index) {
+	while (p->next != NULL && k != index) {
 		p = p->next;
 		++k;
 	}
@@ -319,7 +319,7 @@ node DelByVal(node head, NhanVien value) {
 	return head;
 }
 bool FindSubString(const wstring str1, const wstring str2) {
-	int i = 0, save, temp, size1;
+	int i = 0, temp, size1;
 	wstring s1 = toLower(str1);
 	wstring s2 = toLower(str2);
 	int size2 = str2.length();
@@ -413,8 +413,6 @@ void DisplaySBS(node head, wstring sub) {
 			wcout << L"Chức vụ : " << value.getChucVu() << endl;
 			wcout << L"Ngày sinh : " << DOBtoSTR(value.getNgaySinh()) << endl;
 			wcout << L"Hệ số lương : " << fixed << setprecision(3) << value.getHeSoLuong() << endl;
-			//value.hienThi();
-			//wcout << "====================" << endl;
 		}
 	}
 	if (flag == 0) {
@@ -510,7 +508,7 @@ node OutPutList(node head, wstring name) {
 			<< setWidth(p->data.getHoTen(), 25)
 			<< setWidth(p->data.getChucVu(), 25)
 			<< setWidth(DOBtoSTR(p->data.getNgaySinh()), 25)
-			<< fixed << setprecision(2)
+			<< fixed << setprecision(3)
 			<< num
 			<< "\n";
 		i++;
@@ -539,10 +537,7 @@ bool compareBD(const NgaySinh d1, const NgaySinh d2) {
 	return false;
 }
 bool compareHSL(float d1, float d2) {
-	if (d1 <= d2) {
-		return true;
-	}
-	else return false;
+	return (d1 <= d2) ? true : false;
 }
 int ranking(const wstring str) {
 	wstring temp = toLower(str);
