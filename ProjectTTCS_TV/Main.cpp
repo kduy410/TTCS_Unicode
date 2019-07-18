@@ -275,18 +275,6 @@ int Search(node head, NhanVien value) {
 	}
 	return -1;
 }
-int Search(node head, NhanVien value, float hsl) {
-	int pos = 0;
-	for (node p = head; p != NULL; p = p->next)
-	{
-		if (p->data == value && p->data.getHeSoLuong() == hsl)
-		{
-			return pos;
-		}
-		++pos;
-	}
-	return -1;
-}
 int Search(node head, wstring value) {
 	int pos = 0;
 	for (node p = head; p != NULL; p = p->next)
@@ -370,7 +358,7 @@ node DelByString(node head, wstring subString) {
 		}
 		else if (p->data.getHeSoLuong() == StringToFloat(subString))
 		{
-			int pos = Search(head, p->data, StringToFloat(subString));
+			int pos = Search(head, p->data);
 			head = DelAt(head, pos);
 		}
 	}
@@ -394,7 +382,7 @@ int SearchByString(node head, node p, wstring subString) {
 	}
 	else if (p->data.getHeSoLuong() == StringToFloat(subString))
 	{
-		int pos = Search(head, p->data, StringToFloat(subString));
+		int pos = Search(head, p->data);
 		return pos;
 	}
 	return -1;
@@ -515,7 +503,7 @@ node OutPutList(node head, wstring name) {
 	}
 	_file.close();
 	wcin.get();
-	wcout << L"XUẤT FILE THÀNH CÔNG!!!";
+	wcout << L"XUẤT FILE THÀNH CÔNG!!!"<<endl;
 	return head;
 }
 bool compareBD(const NgaySinh d1, const NgaySinh d2) {
@@ -891,11 +879,11 @@ int main()
 		if (chon == 5) {
 			wcin.ignore();
 			wstring dir;
-			wcout << setWidth('~', 100) << endl;
+			wcout << setWidth('-', 100) << endl;
 			wcout << L"NHẬP ĐỊA CHỈ: ";
 			getline(wcin, dir);
 			OutPutList(head, dir);
-			wcout << setWidth('~', 100) << endl;
+			wcout << setWidth('-', 100) << endl;
 		}
 	}
 	std::system("pause");

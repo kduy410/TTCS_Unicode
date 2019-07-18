@@ -24,5 +24,8 @@ NhanVien::NhanVien(wstring hoten, wstring chucvu, NgaySinh ngaysinh, float hsl)
 	this->hesoluong = hsl;
 }
 bool NhanVien::operator==(const NhanVien& nv) const {
-	return (hoten == nv.hoten) && (ngaysinh.ngay == nv.ngaysinh.ngay &&ngaysinh.thang == nv.ngaysinh.thang&&ngaysinh.nam == nv.ngaysinh.nam) && (chucvu == nv.chucvu) && (hesoluong == nv.hesoluong);
+	return ((hoten == nv.hoten) &&
+		(ngaysinh.ngay == nv.ngaysinh.ngay &&ngaysinh.thang == nv.ngaysinh.thang&&ngaysinh.nam == nv.ngaysinh.nam) &&
+		(chucvu == nv.chucvu) &&
+		(hesoluong == nv.hesoluong)) ? true : false;
 }
