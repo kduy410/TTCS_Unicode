@@ -246,7 +246,8 @@ node DelAt(node head, int position) {
 			++k;
 		}
 		if (k != position) {
-			head = DelTail(head);
+			//head = DelTail(head);
+			wcout << L"VỊ TRÍ XOÁ KHÔNG HỢP LỆ"<<endl;
 		}
 		else {
 			p->next = p->next->next;
@@ -741,6 +742,7 @@ void SortAll(node* headRef) {
 	node head = *headRef;
 	int order;
 	wstring input;
+	wstring s;
 	wcin.ignore();
 	wcout << setWidth('*', 100) << endl;
 	wcout << L"TIÊU CHÍ SẮP XẾP: " << endl;
@@ -753,7 +755,8 @@ void SortAll(node* headRef) {
 	wcout << L"THỨ TỰ SẮP XẾP: " << endl;
 	wcout << L"1.TĂNG DẦN \n";
 	wcout << L"2.GIẢM DẦN \n";
-	wcin >> order;
+	getline(wcin, s);
+	order = StringToInt(s);
 
 	if (order == 1) {
 		MergeSort(headRef, 1, type);
@@ -768,6 +771,7 @@ node AddEmp(node head) {
 	wstring ht;
 	wstring cv;
 	wstring ns;
+	wstring s;
 	float hsl;
 	int pos;
 	wcout << setWidth('#', 100) << endl;
@@ -778,9 +782,11 @@ node AddEmp(node head) {
 	wcout << L"NGÀY THÁNG NĂM SINH: \n";
 	getline(wcin, ns);
 	wcout << L"HỆ SỐ LƯƠNG: \n";
-	wcin >> hsl;
+	getline(wcin, s);
+	hsl = StringToFloat(s);
 	wcout << L"VỊ TRÍ CẦN CHÈN: \n";
-	wcin >> pos;
+	getline(wcin, s);
+	pos = StringToInt(s);
 	wcout << setWidth('#', 100) << endl;
 	NgaySinh ngaysinh = outputDOB(ns);
 	NhanVien nv = NhanVien(ht, cv, ngaysinh, hsl);
