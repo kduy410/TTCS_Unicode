@@ -797,6 +797,18 @@ node DelAll(node head) {
 	head = DelByString(head, s);
 	return head;
 }
+node DelAtPOS(node head) {
+	wcin.ignore();
+	wstring s;
+	int pos;
+	wcout << setWidth('#', 100) << endl;
+	wcout << L"NHẬP VỊ TRÍ CẦN XOÁ: \n";
+	getline(wcin, s);
+	pos = StringToInt(s);
+	head = DelAt(head, pos-1);
+	wcout << setWidth('#', 100) << endl;
+	return head;
+}
 void Display(node head) {
 	wcin.ignore();
 	wstring s;
@@ -843,9 +855,11 @@ int main()
 
 		wcout << L"3.XOÁ NHÂN VIÊN THEO TỪ KHOÁ" << endl;
 
-		wcout << L"4.TÌM NHÂN VIÊN THEO TỪ KHOÁ" << endl;
+		wcout << L"4.XOÁ NHÂN VIÊN THEO VỊ TRÍ" << endl;
 
-		wcout << L"5.XUẤT DANH SÁCH" << endl;
+		wcout << L"5.TÌM NHÂN VIÊN THEO TỪ KHOÁ" << endl;
+
+		wcout << L"6.XUẤT DANH SÁCH" << endl;
 
 		wcout << L"0.THOÁT" << endl;
 
@@ -874,9 +888,15 @@ int main()
 			wcout << setWidth('*', 100) << endl;
 		}
 		if (chon == 4) {
-			Display(head);
+			head = DelAtPOS(head);
+			wcout << setWidth('*', 100) << endl;
+			Traverser(head);
+			wcout << setWidth('*', 100) << endl;
 		}
 		if (chon == 5) {
+			Display(head);
+		}
+		if (chon == 6) {
 			wcin.ignore();
 			wstring dir;
 			wcout << setWidth('-', 100) << endl;
